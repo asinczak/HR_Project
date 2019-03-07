@@ -22,29 +22,17 @@ public class Employee {
         this.maritalStatus = maritalStatus;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    public String getName() { return name; }
 
     public String getSurname() {
         return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
     }
 
     public char getSex() {
         return sex;
     }
 
-    public void setSex(char sex) {
-        this.sex = sex;
-    }
+    public void setSex(char sex) { this.sex = sex; }
 
     public int getNr_branch() {
         return nr_branch;
@@ -108,11 +96,8 @@ public class Employee {
         System.out.println("Employee{" + " name ="+getName().toUpperCase()+", surname ="+getSurname().toUpperCase());
     }
 
-    public static void main(String[] args) {
-        Employee employee = new Employee("kasia", "nowak", 'k', 2,1000,20,0, false);
-        employee.toString();
-        employee.shortDisplay();
-        employee.specialDisplay();
+    public String writeToFile () {
+       return getSurname()+" "+getName()+" "+ getSex()+" "+ getNr_branch()+" "+ getSalary()+" "+ getAge()+" "+ getNr_children();
     }
 
     public boolean CheckingSalary (double salary){
