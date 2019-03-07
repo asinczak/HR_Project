@@ -1,6 +1,8 @@
-package pl.com.ttpsc.KursJava.Data;
+package pl.com.ttpsc.kursjava.data;
 
-public class Employee {
+import java.io.Serializable;
+
+public class Employee implements Serializable {
 
    private String name;
    private String surname;
@@ -88,15 +90,15 @@ public class Employee {
                 '}';
     }
 
-    public void shortDisplay () {
-        System.out.println("Employee{" + " name ="+getName()+", surname ="+getSurname()+", salary ="+getSalary());
+    public String shortDisplay () {
+        return "Employee{" + " name ="+getName()+", surname ="+getSurname()+", salary ="+getSalary();
     }
 
-    public void specialDisplay (){
-        System.out.println("Employee{" + " name ="+getName().toUpperCase()+", surname ="+getSurname().toUpperCase());
+    public String specialDisplay (){
+       return "Employee{" + " name ="+getName().toUpperCase()+", surname ="+getSurname().toUpperCase();
     }
 
-    public String writeToFile () {
+    public String displayForWrite() {
        return getSurname()+" "+getName()+" "+ getSex()+" "+ getNr_branch()+" "+ getSalary()+" "+ getAge()+" "+ getNr_children();
     }
 
