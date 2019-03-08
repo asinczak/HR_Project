@@ -32,6 +32,8 @@ public class Employee implements Serializable {
         return surname;
     }
 
+    public void setSurname (String surname){ this.surname = surname; }
+
     public char getSex() {
         return sex;
     }
