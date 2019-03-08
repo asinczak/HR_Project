@@ -2,7 +2,6 @@ package pl.com.ttpsc.kursjava.services;
 
 import pl.com.ttpsc.kursjava.data.Employee;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -12,24 +11,29 @@ public class EmployeeService {
     List<Employee> list = new ArrayList<>();
 
    public List getList () {
-       return list;
+       FileService fileService = new FileService();
+
+      for (Employee employee : fileService.readObject()){
+          System.out.println(employee.shortDisplay());
+      }
+
+       return fileService.readObject();
    }
 
-    public void shortDisplayList (){
-        for (Employee employee : list){
-            System.out.println(employee.shortDisplay());
-        }
+    private void updateListFile() {
+        FileService fileService = new FileService();
+        fileService.writeObject(list);
     }
 
     public void addEmployee (Employee employee){
         list.add(employee);
+        updateListFile();
     }
 
     public void removeEmployee (){
         System.out.println("List of all employees :");
-        for(Employee employee : list){
-            System.out.println(employee.toString());
-        }
+        getList();
+
         Scanner sc = new Scanner(System.in);
         System.out.println("Please choose the employee to remove. Enter the name :");
         String name = sc.nextLine();
@@ -41,6 +45,7 @@ public class EmployeeService {
                 list.remove(list.get(i));
             }
         }
+        updateListFile();
     }
 
     public void editData ( ){
