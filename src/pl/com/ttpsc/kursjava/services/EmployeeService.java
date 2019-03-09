@@ -13,9 +13,9 @@ public class EmployeeService {
     MenuService menuService = new MenuService();
 
    public List <Employee> getList () {
-      for (Employee employee : fileService.readObject()){
-          System.out.println(employee.shortDisplay());
-      }
+//       for (Employee employee : fileService.readObject()){
+//           System.out.println(employee.shortDisplay());
+//       }
       return fileService.readObject();
    }
 
@@ -50,6 +50,7 @@ public class EmployeeService {
                 }
                 if (employeeToRemove != null) {
                     list.remove(employeeToRemove);
+                    updateListFile();
                     break;
                 } else {
                     throw new IncorrectDataException();
@@ -58,8 +59,6 @@ public class EmployeeService {
                 System.out.println(e.getMessage());
             }
         } while (true);
-
-        updateListFile();
     }
 
     public void editData ( ) {
@@ -88,6 +87,7 @@ public class EmployeeService {
                     menuService.editDataMenu(employeeToEdit);
                     System.out.println("Employee data after changes :");
                     System.out.println(employeeToEdit);
+                    updateListFile();
                     break;
                 } else {
                     throw new IncorrectDataException();
@@ -96,9 +96,78 @@ public class EmployeeService {
                 System.out.println(e.getMessage());
                 }
             } while (true);
-        updateListFile();
         }
 
+        public void additionalFunctions (){
+       menuService.additionalFunctionsMenu();
+        }
+
+    public void countNumberOfEmp(float givenSalary) {
+       list = getList();
+        int counter = 0;
+        for(int i = 0; i<list.size(); i++){
+            if (list.get(i).getSalary() > givenSalary){
+                counter++;
+            }
+        }
+        System.out.println("Number of employees which salary is higher than "+givenSalary+ " : "+counter);
     }
+
+    public void countAverageSalary(int branch) {
+       list = getList();
+       int counter = 0;
+       float allSalary = 0;
+
+       for(int i = 0; i<list.size(); i++){
+           if(list.get(i).getNr_branch() == branch){
+               float salary = list.get(i).getSalary();
+               allSalary = allSalary + salary;
+               counter++;
+           }
+       }
+        float averageSalary = allSalary / counter;
+
+        System.out.println("The average salary in branch nr "+branch+ " : "+averageSalary);
+    }
+
+    public void displayHighestSalary() {
+       list = getList();
+       float highSalaryWomen = 0;
+       float highSalaryMen = 0;
+
+       for(int i = 0; i<list.size(); i++){
+           float salary = list.get(i).getSalary();
+           if (list.get(i).getSex() == 'k'){
+               if(highSalaryWomen < salary) {
+                   highSalaryWomen = salary;
+                    }
+               } else {
+                   if (highSalaryMen < salary){
+                       highSalaryMen = salary;
+                   }
+               }
+           }
+        System.out.println("The highest women's salary is : "+ highSalaryWomen);
+        System.out.println("The higest men's salary is : "+ highSalaryMen);
+    }
+
+    public void displayAllDepartments() {
+    }
+
+    public void displayRatioOfSalary() {
+    }
+
+    public void increaseSalary10per() {
+    }
+
+    public void increaseSalaryByAmount() {
+    }
+
+    public void sortForSurname() {
+    }
+
+    public void sortForSalary() {
+    }
+}
 
 
