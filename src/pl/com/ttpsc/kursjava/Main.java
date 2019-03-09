@@ -21,12 +21,10 @@ public class Main {
 
         employeeService.getList();
 
-
-
-        employeeService.removeEmployee();
+//        employeeService.removeEmployee();
         employeeService.getList();
 
-
+        employeeService.editData();
 
 
 
