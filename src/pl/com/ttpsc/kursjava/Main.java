@@ -13,11 +13,11 @@ public class Main {
         EmployeeService employeeService = new EmployeeService();
 //        employeeService.addEmployee(employee1);
 //        employeeService.addEmployee(employee2);
-
-        employeeService.getList();
-
+//
 //        Employee employee3 = new Employee("tomasz", "góra",'m',3,5000,40,3,true);
 //        employeeService.addEmployee(employee3);
+
+        System.out.println(employeeService.getList());
 //
 //        employeeService.getList();
 //
@@ -28,5 +28,6 @@ public class Main {
 //
         employeeService.additionalFunctions();
 
+        System.out.println(employeeService.getList());
     }
     }

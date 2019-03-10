@@ -127,13 +127,21 @@ public class MenuService {
                     employeeService.increaseSalary10per();
                     break;
                 case 7:
-                    employeeService.increaseSalaryByAmount();
+                    System.out.println("Enter amount to increase salary");
+                    float amount = sc.nextFloat();
+                    employeeService.increaseSalaryByAmount(amount);
                     break;
                 case 8:
-                    employeeService.sortForSurname();
+                    System.out.println("Enter -true- if you want to sort crescively");
+                    System.out.println("Enter -false- if you want to sort in descending order");
+                    boolean howSort = sc.nextBoolean();
+                    employeeService.sortForSurname(howSort);
                     break;
                 case 9:
-                    employeeService.sortForSalary();
+                    System.out.println("Enter -true- if you want to sort crescively");
+                    System.out.println("Enter -false- if you want to sort in descending order");
+                    boolean howSort2 = sc.nextBoolean();
+                    employeeService.sortForSalary(howSort2);
                     break;
                 case 10:
                     System.out.println("Finish");

@@ -115,12 +115,13 @@ public class Employee implements Serializable {
     }
 
     public void countRise (float percent) {
-        this.salary = this.salary * percent + this.salary;
-        if (this.nr_children > 0){
-            this.salary = (float) (this.salary * 0.02 * this.nr_children + this.salary);
+        float salary = getSalary() * percent + getSalary();
+        if (getNr_children() > 0){
+            salary = (float) (salary * 0.02 * getNr_children() + salary);
         }
-        if (this.maritalStatus){
-            this.salary = (float) (this.salary * 0.03 + this.salary);
+        if (isMaritalStatus()){
+            salary = (float) (salary * 0.03 + salary);
         }
+        setSalary(salary);
     }
 }

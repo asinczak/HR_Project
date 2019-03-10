@@ -1,8 +1,9 @@
 package pl.com.ttpsc.kursjava.services;
 
-import pl.com.ttpsc.kursjava.data.Employee;
+import pl.com.ttpsc.kursjava.data.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -103,7 +104,7 @@ public class EmployeeService {
         }
 
     public void countNumberOfEmp(float givenSalary) {
-       list = getList();
+        list = getList();
         int counter = 0;
         for(int i = 0; i<list.size(); i++){
             if (list.get(i).getSalary() > givenSalary){
@@ -114,7 +115,7 @@ public class EmployeeService {
     }
 
     public void countAverageSalary(int branch) {
-       list = getList();
+        list = getList();
        int counter = 0;
        float allSalary = 0;
 
@@ -131,7 +132,7 @@ public class EmployeeService {
     }
 
     public void displayHighestSalary() {
-       list = getList();
+        list = getList();
        float highSalaryWomen = 0;
        float highSalaryMen = 0;
 
@@ -152,21 +153,112 @@ public class EmployeeService {
     }
 
     public void displayAllDepartments() {
+       list = getList();
+       int nr_Branch = 0;
+       int counterWomen = 0;
+       int counterMen = 0;
+       for (int i = 0; i <list.size(); i++){
+           if(nr_Branch != list.get(i).getNr_branch()) {
+               nr_Branch = list.get(i).getNr_branch();
+               if (list.get(i).getSex() == 'k') {
+                   counterWomen++;
+               } else {
+                   counterMen++;
+
+               }
+               if (counterWomen > counterMen) {
+                   System.out.println("In branch nr " + list.get(i).getNr_branch() + " most employees are women");
+                   countAverageSalary(nr_Branch);
+               }
+               if (counterWomen < counterMen) {
+                   System.out.println("In branch nr " + list.get(i).getNr_branch() + " most employees are men");
+                   countAverageSalary(nr_Branch);
+               }
+               if (counterWomen == counterMen) {
+                   System.out.println("In branch nr " + list.get(i).getNr_branch() + " number of women is the same as number of men");
+                   countAverageSalary(nr_Branch);
+               }
+           }
+       }
     }
 
     public void displayRatioOfSalary() {
+       list = getList();
+       float allWomenSalary = 0;
+       int counterWomen = 0;
+       float allMenSalary = 0;
+       int counterMen = 0;
+        float salary = 0;
+
+       for (int i = 0; i < list.size(); i++){
+           salary = list.get(i).getSalary();
+           if (list.get(i).getSex() == 'k'){
+               allWomenSalary = allWomenSalary + salary;
+               counterWomen++;
+           } else {
+               allMenSalary = allMenSalary + salary;
+               counterMen++;
+           }
+       }
+
+        float averageWomenSalary = allWomenSalary / counterWomen;
+        float averageMenSalary = allMenSalary / counterMen;
+        System.out.println("The ratio of women's salary to men's salary is "+ averageWomenSalary+" : "+averageMenSalary);
     }
 
     public void increaseSalary10per() {
+       list = getList();
+
+       for(Employee employee : list){
+           employee.countRise(0.10f);
+       }
+
+        System.out.println("Salaries after rise");
+        updateListFile();
+        System.out.println(getList());
+
     }
 
-    public void increaseSalaryByAmount() {
+    public String increaseSalaryByAmount(float amount) {
+       list = getList();
+
+       int counterWomen = 0;
+       int counterMen = 0;
+       float salaryAfterRise = 0;
+       for (Employee employee : list){
+           salaryAfterRise = employee.getSalary() + amount;
+           employee.setSalary(salaryAfterRise);
+           if(employee.getSex() == 'k') {
+               counterWomen++;
+           } else {
+               counterMen++;
+           }
+       }
+        int counter = counterWomen + counterMen;
+        System.out.println("The sum of rises : "+counter);
+        updateListFile();
+
+        return "The ratio of women's rise to men's rise is "+counterWomen+ " : "+counterMen;
     }
 
-    public void sortForSurname() {
+    public void sortForSurname(boolean howSort) {
+       list = getList();
+       if (howSort){
+           Collections.sort(list, new EmplyeeSurnameComparator_Up());
+       } else {
+           Collections.sort(list, new EmployeeSurnameComparator_Down());
+       }
+       updateListFile();
     }
 
-    public void sortForSalary() {
+    public void sortForSalary(boolean howSort) {
+        list = getList();
+        if (howSort){
+            Collections.sort(list, new EmployeeSalaryComparator_Up());
+        } else {
+            Collections.sort(list, new EmployeeSalaryComparator_Down());
+        }
+        updateListFile();
     }
 }
 
