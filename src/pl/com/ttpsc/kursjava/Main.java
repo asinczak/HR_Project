@@ -13,7 +13,7 @@ public class Main {
         EmployeeService employeeService = new EmployeeService();
 //        employeeService.addEmployee(employee1);
 //        employeeService.addEmployee(employee2);
-//
+
 //        Employee employee3 = new Employee("tomasz", "góra",'m',3,5000,40,3,true);
 //        employeeService.addEmployee(employee3);
 
@@ -26,7 +26,7 @@ public class Main {
 //
 //        employeeService.editData();
 //
-        employeeService.additionalFunctions();
+        employeeService.additionalFunctionsForFiles();
 
         System.out.println(employeeService.getList());
     }

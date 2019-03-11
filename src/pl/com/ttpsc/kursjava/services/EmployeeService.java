@@ -2,10 +2,7 @@ package pl.com.ttpsc.kursjava.services;
 
 import pl.com.ttpsc.kursjava.data.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class EmployeeService {
 
@@ -14,13 +11,16 @@ public class EmployeeService {
     MenuService menuService = new MenuService();
 
    public List <Employee> getList () {
-//       for (Employee employee : fileService.readObject()){
-//           System.out.println(employee.shortDisplay());
-//       }
       return fileService.readObject();
    }
 
-    private void updateListFile() {
+   public void displayList () {
+              for (Employee employee : fileService.readObject()){
+           System.out.println(employee.shortDisplay());
+       }
+   }
+
+     void updateListFile() {
         fileService.writeObject(list);
     }
 
@@ -259,6 +259,73 @@ public class EmployeeService {
             Collections.sort(list, new EmployeeSalaryComparator_Down());
         }
         updateListFile();
+    }
+
+    public void additionalFunctionsForFiles (){
+       menuService.additionalFunctionsForFilesMenu();
+    }
+
+    public void displayLongestSurname() {
+       list = getList();
+       String theLongestSurname = "";
+
+       for (Employee employee : list){
+           if(theLongestSurname.length() < employee.getSurname().length()){
+               theLongestSurname = employee.getSurname();
+           }
+       }
+        System.out.println("Employee with the longest surname is : "+theLongestSurname);
+    }
+
+    public void countAverageAge() {
+       list = getList();
+       int counter = 0;
+       int sumAge = 0;
+       for(Employee employee : list){
+           if (employee.getNr_children() > 0){
+               sumAge = sumAge + employee.getAge();
+               counter++;
+           }
+       }
+       int averageAge = sumAge / counter;
+        System.out.println("The average age of employees who have children is : "+averageAge);
+    }
+
+    public void encodeData() {
+       list = getList();
+       float allSalary = 0;
+       int counter = 0;
+       String encodeSurname = "";
+       String specialSign = "";
+       char tab [] = null;
+       char sign = '*';
+
+       for(Employee employee : list){
+           allSalary = allSalary + employee.getSalary();
+           counter++;
+       }
+       float averageSalary = allSalary / counter;
+
+       for (Employee employee : list){
+           if (employee.getSalary() < averageSalary){
+
+               tab = new char[employee.getSurname().length()-1];
+               Arrays.fill(tab, sign);
+               specialSign = new String(tab);
+
+              encodeSurname = employee.getSurname().substring(0,1) + specialSign;
+               employee.setSurname(encodeSurname);
+           }
+       }
+       updateListFile();
+    }
+
+    public void createFile() {
+       fileService.createTable();
+    }
+
+    public void infoProgram (){
+        System.out.println("Program to support organization in company");
     }
 }
 

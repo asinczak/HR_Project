@@ -94,8 +94,7 @@ public class MenuService {
 
     public void additionalFunctionsMenu() {
             Scanner sc = new Scanner(System.in);
-            EmployeeService employeeService = new EmployeeService();
-
+        EmployeeService employeeService = new EmployeeService();
             boolean switchgoes = true;
 
         do {
@@ -151,6 +150,111 @@ public class MenuService {
                     System.out.println("Wrong number! Choose one more time!");
             }
         } while (switchgoes);
+    }
 
+    public void displayAdditionalFunctionsForFilesMenu () {
+        System.out.println("******************************");
+        System.out.println("Please choose one option :");
+        System.out.println("1 -> Display data with employee who has the longest surname");
+        System.out.println("2 -> Count average age of employees who have children");
+        System.out.println("3 -> Encode some data in file");
+        System.out.println("4 -> Create file = Employees.html");
+        System.out.println("5 -> Finish");
+    }
+
+    public void additionalFunctionsForFilesMenu () {
+        Scanner sc = new Scanner(System.in);
+        EmployeeService employeeService = new EmployeeService();
+        boolean switchgoes = true;
+
+        do {
+
+            displayAdditionalFunctionsForFilesMenu();
+            int menuNumber = sc.nextInt();
+
+            switch (menuNumber) {
+                case 1:
+                   employeeService.displayLongestSurname();
+                    break;
+                case 2:
+                   employeeService.countAverageAge();
+                    break;
+                case 3:
+                   employeeService.encodeData();
+                    break;
+                case 4:
+                    employeeService.createFile();
+                    break;
+                case 5:
+                    System.out.println("Finish");
+                    switchgoes = false;
+                    break;
+                default:
+                    System.out.println("Wrong number! Choose one more time!");
+            }
+        } while (switchgoes);
+    }
+
+    public void displayMainMenu (){
+        System.out.println("******************************");
+        System.out.println("Please choose one option :");
+        System.out.println("1 -> Display list of employees in short way");
+        System.out.println("2 -> Add new employee");
+        System.out.println("3 -> Export data to file");
+        System.out.println("4 -> Remove employee");
+        System.out.println("5 - > Edit data");
+        System.out.println("6 -> Additional functions");
+        System.out.println("7 -> Additional functions for files");
+        System.out.println("8 -> Information about program");
+        System.out.println("9 -> Enter own name of file");
+        System.out.println("10 -> Finish");
+    }
+
+    public void mainMenu (){
+        Scanner sc = new Scanner(System.in);
+        EmployeeService employeeService = new EmployeeService();
+        boolean switchgoes = true;
+
+        do {
+
+            displayMainMenu();
+            int menuNumber = sc.nextInt();
+
+            switch (menuNumber) {
+                case 1:
+                    employeeService.displayList();
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+
+                    break;
+                case 4:
+
+                    break;
+                case 5:
+
+                    break;
+                case 6:
+
+                    break;
+                case 7:
+
+                    break;
+                case 8:
+
+                    break;
+                case 9:
+
+                    break;
+                case 10:
+                    System.out.println("Finish");
+                    switchgoes = false;
+                    break;
+                default:
+                    System.out.println("Wrong number! Choose one more time!");
+            }
+        } while (switchgoes);
     }
 }

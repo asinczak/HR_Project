@@ -1,5 +1,6 @@
 package pl.com.ttpsc.kursjava.services;
 
+import com.sun.javafx.binding.StringFormatter;
 import pl.com.ttpsc.kursjava.data.Employee;
 
 import java.io.*;
@@ -8,6 +9,7 @@ import java.util.List;
 public class FileService {
 
     private static final String BASE_FILE = "base.dat";
+    private static final String TABLE_FILE = "employees.html";
 
     public void writeObject (List <Employee> list) {
 
@@ -46,4 +48,20 @@ public class FileService {
         return listFromFile;
     }
 
+    public void createTable()  {
+
+        try(PrintWriter pw = new PrintWriter(new FileWriter(TABLE_FILE))) {
+
+            pw.println("<TABLE><TR><TH>Surname<TH>Name<TH>Sex<TH>Nr_branch<TH>Salary<TH>Age</TR>");
+
+            for (Employee employee : readObject()){
+                pw.println("<TD>"+employee.getSurname()+"<TD>"+employee.getName()+"<TD>"+employee.getSex()+"<TD>"+
+                        employee.getNr_branch()+"<TD>"+employee.getSalary()+"<TD>"+employee.getAge());
+            }
+            pw.println("</TABLE>");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
