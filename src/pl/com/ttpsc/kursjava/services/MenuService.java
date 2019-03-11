@@ -225,28 +225,45 @@ public class MenuService {
                     employeeService.displayList();
                     break;
                 case 2:
-
+                    System.out.println("Enter data to add employee. Enter name :");
+                    String name = sc.next();
+                    System.out.println("Enter the surname :");
+                    String surname = sc.next();
+                    System.out.println("Enter the sex : ");
+                    char sex = sc.next().charAt(0);
+                    System.out.println("Enter the number of department :");
+                    int nr_branch = sc.nextInt();
+                    System.out.println("Enter the salary :");
+                    float salary = sc.nextFloat();
+                    System.out.println("Enter the age :");
+                    int age = sc.nextInt();
+                    System.out.println("Enter the number of children :");
+                    int nr_children = sc.nextInt();
+                    System.out.println("Enter -true- if employee is married");
+                    System.out.println("Enter -false- if emploee is not married");
+                    boolean isMarried = sc.nextBoolean();
+                    employeeService.addEmployee(name, surname, sex, nr_branch, salary, age, nr_children, isMarried);
                     break;
                 case 3:
-
+                    employeeService.updateListFile();
                     break;
                 case 4:
-
+                    employeeService.removeEmployee();
                     break;
                 case 5:
-
+                    employeeService.editData();
                     break;
                 case 6:
-
+                    employeeService.additionalFunctions();
                     break;
                 case 7:
-
+                    employeeService.additionalFunctionsForFiles();
                     break;
                 case 8:
-
+                    employeeService.infoProgram();
                     break;
                 case 9:
-
+                    employeeService.enterFileName();
                     break;
                 case 10:
                     System.out.println("Finish");

@@ -13,6 +13,9 @@ public class EmployeeService {
    public List <Employee> getList () {
       return fileService.readObject();
    }
+   public void mainMenu (){
+       menuService.mainMenu();
+   }
 
    public void displayList () {
               for (Employee employee : fileService.readObject()){
@@ -24,7 +27,8 @@ public class EmployeeService {
         fileService.writeObject(list);
     }
 
-    public void addEmployee (Employee employee){
+    public void addEmployee (String name, String surname, char sex, int nr_branch, float salary, int age, int nr_children, boolean isMarried ){
+       Employee employee = new Employee(name,surname,sex, nr_branch, salary, age, nr_children, isMarried );
         list.add(employee);
         updateListFile();
     }
@@ -326,6 +330,9 @@ public class EmployeeService {
 
     public void infoProgram (){
         System.out.println("Program to support organization in company");
+    }
+
+    public void enterFileName() {
     }
 }
 

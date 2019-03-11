@@ -16,8 +16,9 @@ public class Employee implements Serializable {
    private boolean maritalStatus;
 
     public Employee(String name, String surname, char sex, int nr_branch, float salary, int age, int nr_children, boolean maritalStatus) {
-        this.name = name;
-        this.surname = surname;
+
+        this.name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
+        this.surname = surname.substring(0,1).toUpperCase() + surname.substring(1).toLowerCase();
         this.sex = sex;
         this.nr_branch = nr_branch;
         this.salary = salary;
