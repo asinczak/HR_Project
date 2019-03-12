@@ -9,21 +9,23 @@ public class Employee implements Serializable {
    private String name;
    private String surname;
    private char sex;
-   private int nr_branch;
+   private int nrBranch;
    private float salary;
    private int age;
-   private int nr_children;
+   private int nrChildren;
    private boolean maritalStatus;
 
-    public Employee(String name, String surname, char sex, int nr_branch, float salary, int age, int nr_children, boolean maritalStatus) {
+    public Employee(String name, String surname, char sex, int nrBranch, float salary, int age, int nrChildren, boolean maritalStatus) {
 
-        this.name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
-        this.surname = surname.substring(0,1).toUpperCase() + surname.substring(1).toLowerCase();
+        String correctWrittenName = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
+        String correctWrittenSurname = surname.substring(0,1).toUpperCase() + surname.substring(1).toLowerCase();
+        this.name = correctWrittenName.replaceAll("\\s\\d", "");
+        this.surname = correctWrittenSurname.replaceAll("\\s\\d", "");
         this.sex = sex;
-        this.nr_branch = nr_branch;
+        this.nrBranch = nrBranch;
         this.salary = salary;
         this.age = age;
-        this.nr_children = nr_children;
+        this.nrChildren = nrChildren;
         this.maritalStatus = maritalStatus;
     }
 
@@ -41,12 +43,12 @@ public class Employee implements Serializable {
 
     public void setSex(char sex) { this.sex = sex; }
 
-    public int getNr_branch() {
-        return nr_branch;
+    public int getNrBranch() {
+        return nrBranch;
     }
 
-    public void setNr_branch(int nr_branch) {
-        this.nr_branch = nr_branch;
+    public void setNrBranch(int nrBranch) {
+        this.nrBranch = nrBranch;
     }
 
     public float getSalary() {
@@ -65,12 +67,12 @@ public class Employee implements Serializable {
         this.age = age;
     }
 
-    public int getNr_children() {
-        return nr_children;
+    public int getNrChildren() {
+        return nrChildren;
     }
 
-    public void setNr_children(int nr_children) {
-        this.nr_children = nr_children;
+    public void setNrChildren(int nrChildren) {
+        this.nrChildren = nrChildren;
     }
 
     public boolean isMaritalStatus() {
@@ -87,10 +89,10 @@ public class Employee implements Serializable {
                 "name= " + getName() + '\'' +
                 ", surname ='" + getSurname() + '\'' +
                 ", sex =" + getSex() +
-                ", nr_branch =" + getNr_branch() +
+                ", nrBranch =" + getNrBranch() +
                 ", salary =" + getSalary() +
                 ", age =" + getAge() +
-                ", nr_children =" + getNr_children() +
+                ", nrChildren =" + getNrChildren() +
                 ", maritalStatus =" + isMaritalStatus() +
                 '}';
     }
@@ -104,7 +106,7 @@ public class Employee implements Serializable {
     }
 
     public String displayForWrite() {
-       return getSurname()+" "+getName()+" "+ getSex()+" "+ getNr_branch()+" "+ getSalary()+" "+ getAge()+" "+ getNr_children();
+       return getSurname()+" "+getName()+" "+ getSex()+" "+ getNrBranch()+" "+ getSalary()+" "+ getAge()+" "+ getNrChildren();
     }
 
     public boolean CheckingSalary (double salary){
@@ -117,8 +119,8 @@ public class Employee implements Serializable {
 
     public void countRise (float percent) {
         float salary = getSalary() * percent + getSalary();
-        if (getNr_children() > 0){
-            salary = (float) (salary * 0.02 * getNr_children() + salary);
+        if (getNrChildren() > 0){
+            salary = (float) (salary * 0.02 * getNrChildren() + salary);
         }
         if (isMaritalStatus()){
             salary = (float) (salary * 0.03 + salary);

@@ -4,7 +4,18 @@ import pl.com.ttpsc.kursjava.data.Employee;
 
 import java.util.Scanner;
 
-public class MenuService {
+public final class MenuService {
+
+    private static final MenuService menuService = new MenuService();
+
+    private MenuService () {}
+
+    public static MenuService getInstance() {
+        return menuService;
+    }
+    EmployeeService employeeService = EmployeeService.getInstance();
+    DisplayService displayService = new DisplayService();
+    FileService fileService = FileService.getInstance();
 
         public void displayEditDataMenu (){
             System.out.println("****************************");
@@ -40,7 +51,7 @@ public class MenuService {
                     case 2:
                         System.out.println("Enter the new number of department : ");
                         int newNr_Dept = sc.nextInt();
-                        employee.setNr_branch(newNr_Dept);
+                        employee.setNrBranch(newNr_Dept);
                         break;
                     case 3:
                         System.out.println("Enter the new salary :");
@@ -55,7 +66,7 @@ public class MenuService {
                     case 5:
                         System.out.println("Enter the new number of children :");
                         int newNr_Children = sc.nextInt();
-                        employee.setNr_children(newNr_Children);
+                        employee.setNrChildren(newNr_Children);
                         break;
                     case 6:
                         if (employee.isMaritalStatus()) {
@@ -94,7 +105,7 @@ public class MenuService {
 
     public void additionalFunctionsMenu() {
             Scanner sc = new Scanner(System.in);
-        EmployeeService employeeService = new EmployeeService();
+
             boolean switchgoes = true;
 
         do {
@@ -106,24 +117,24 @@ public class MenuService {
                 case 1:
                     System.out.println("Enter the salary to compare :");
                     float givenSalary = sc.nextFloat();
-                   employeeService.countNumberOfEmp(givenSalary);
+                    System.out.println("Number of employees which salary is higher than "+givenSalary+ " : "+employeeService.countNumberOfEmp(givenSalary));
                     break;
                 case 2:
                     System.out.println("Enter the branch number :");
                     int branch = sc.nextInt();
-                    employeeService.countAverageSalary(branch);
+                    System.out.println("The average salary in branch nr "+branch+ " : "+employeeService.countAverageSalary(branch));
                     break;
                 case 3:
-                    employeeService.displayHighestSalary();
+                    displayService.displayHighestSalary();
                     break;
                 case 4:
-                    employeeService.displayAllDepartments();
+                    displayAllDepartments();
                     break;
                 case 5:
-                    employeeService.displayRatioOfSalary();
+                    displayService.displayRatioOfSalary();
                     break;
                 case 6:
-                    employeeService.increaseSalary10per();
+                    displayService.displayIncreaseSalary10per();
                     break;
                 case 7:
                     System.out.println("Enter amount to increase salary");
@@ -164,7 +175,7 @@ public class MenuService {
 
     public void additionalFunctionsForFilesMenu () {
         Scanner sc = new Scanner(System.in);
-        EmployeeService employeeService = new EmployeeService();
+
         boolean switchgoes = true;
 
         do {
@@ -174,16 +185,16 @@ public class MenuService {
 
             switch (menuNumber) {
                 case 1:
-                   employeeService.displayLongestSurname();
+                   displayService.displayLongestSurname();
                     break;
                 case 2:
-                   employeeService.countAverageAge();
+                   displayService.displayCountAverageAge();
                     break;
                 case 3:
                    employeeService.encodeData();
                     break;
                 case 4:
-                    employeeService.createFile();
+                    fileService.createTable();
                     break;
                 case 5:
                     System.out.println("Finish");
@@ -212,7 +223,7 @@ public class MenuService {
 
     public void mainMenu (){
         Scanner sc = new Scanner(System.in);
-        EmployeeService employeeService = new EmployeeService();
+
         boolean switchgoes = true;
 
         do {
@@ -222,7 +233,7 @@ public class MenuService {
 
             switch (menuNumber) {
                 case 1:
-                    employeeService.displayList();
+                    displayService.displayList();
                     break;
                 case 2:
                     System.out.println("Enter data to add employee. Enter name :");
@@ -242,28 +253,31 @@ public class MenuService {
                     System.out.println("Enter -true- if employee is married");
                     System.out.println("Enter -false- if emploee is not married");
                     boolean isMarried = sc.nextBoolean();
-                    employeeService.addEmployee(name, surname, sex, nr_branch, salary, age, nr_children, isMarried);
+                    Employee employee = new Employee(name,surname,sex,nr_branch,salary,age,nr_children,isMarried);
+                    employeeService.addEmployee(employee);
                     break;
                 case 3:
                     employeeService.updateListFile();
                     break;
                 case 4:
-                    employeeService.removeEmployee();
+                    displayService.displayRemoveEmployee();
                     break;
                 case 5:
-                    employeeService.editData();
+                    displayService.displayEditData();
                     break;
                 case 6:
-                    employeeService.additionalFunctions();
+                   additionalFunctionsMenu();
                     break;
                 case 7:
-                    employeeService.additionalFunctionsForFiles();
+                    additionalFunctionsForFilesMenu();
                     break;
                 case 8:
-                    employeeService.infoProgram();
+                    displayService.infoProgram();
                     break;
                 case 9:
-                    employeeService.enterFileName();
+                    System.out.println("Enter your own name of file :");
+                    String nameFile = sc.next();
+                    fileService.changeFileName(nameFile);
                     break;
                 case 10:
                     System.out.println("Finish");
@@ -273,5 +287,35 @@ public class MenuService {
                     System.out.println("Wrong number! Choose one more time!");
             }
         } while (switchgoes);
+    }
+
+    public void displayAllDepartments() {
+        employeeService.list = employeeService.getList();
+        int nrBranch = 0;
+        int counterWomen = 0;
+        int counterMen = 0;
+        for (int i = 0; i <employeeService.list.size(); i++){
+            if(nrBranch != employeeService.list.get(i).getNrBranch()) {
+                nrBranch = employeeService.list.get(i).getNrBranch();
+                if (employeeService.list.get(i).getSex() == 'k') {
+                    counterWomen++;
+                } else {
+                    counterMen++;
+
+                }
+                if (counterWomen > counterMen) {
+                    System.out.println("In branch nr " + employeeService.list.get(i).getNrBranch() + " most employees are women");
+                    employeeService.countAverageSalary(nrBranch);
+                }
+                if (counterWomen < counterMen) {
+                    System.out.println("In branch nr " + employeeService.list.get(i).getNrBranch() + " most employees are men");
+                    employeeService.countAverageSalary(nrBranch);
+                }
+                if (counterWomen == counterMen) {
+                    System.out.println("In branch nr " + employeeService.list.get(i).getNrBranch() + " number of women is the same as number of men");
+                    employeeService.countAverageSalary(nrBranch);
+                }
+            }
+        }
     }
 }

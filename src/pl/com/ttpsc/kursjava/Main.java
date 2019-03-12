@@ -1,18 +1,13 @@
 package pl.com.ttpsc.kursjava;
 
-import pl.com.ttpsc.kursjava.data.Employee;
-import pl.com.ttpsc.kursjava.services.EmployeeService;
+import pl.com.ttpsc.kursjava.services.MenuService;
 
 public class Main {
 
     public static void main(String[] args) {
 
 
-        EmployeeService employeeService = new EmployeeService();
+        MenuService.getInstance().mainMenu();
 
-        employeeService.mainMenu();
-
-//        System.out.println(employeeService.getList());
-
-    }
+        }
     }

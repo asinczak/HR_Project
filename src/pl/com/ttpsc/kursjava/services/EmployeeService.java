@@ -1,48 +1,45 @@
 package pl.com.ttpsc.kursjava.services;
 
+import pl.com.ttpsc.kursjava.comparators.EmployeeSalaryComparator;
+import pl.com.ttpsc.kursjava.comparators.EmplyeeSurnameComparator;
 import pl.com.ttpsc.kursjava.data.*;
 
 import java.util.*;
 
-public class EmployeeService {
+public final class EmployeeService {
+
+    private final static EmployeeService employeeService = new EmployeeService();
+
+    private EmployeeService () {}
+
+    public static EmployeeService getInstance() {
+        return employeeService;
+    }
 
     List<Employee> list = new ArrayList<>();
-    FileService fileService = new FileService();
-    MenuService menuService = new MenuService();
+    FileService fileService = FileService.getInstance();
+    MenuService menuService = MenuService.getInstance();
 
    public List <Employee> getList () {
       return fileService.readObject();
-   }
-   public void mainMenu (){
-       menuService.mainMenu();
-   }
-
-   public void displayList () {
-              for (Employee employee : fileService.readObject()){
-           System.out.println(employee.shortDisplay());
-       }
    }
 
      void updateListFile() {
         fileService.writeObject(list);
     }
 
-    public void addEmployee (String name, String surname, char sex, int nr_branch, float salary, int age, int nr_children, boolean isMarried ){
-       Employee employee = new Employee(name,surname,sex, nr_branch, salary, age, nr_children, isMarried );
+    public void addEmployee (Employee employee){
+       list = getList();
         list.add(employee);
         updateListFile();
     }
 
     public void removeEmployee () {
-
+       list = getList();
         Employee employeeToRemove = null;
-
-        System.out.println("List of all employees :");
-        getList();
 
         Scanner sc = new Scanner(System.in);
         do {
-            try {
                 System.out.println("Please choose the employee to remove. Enter the name :");
                 String name = sc.nextLine();
                 System.out.println("Enter the surname :");
@@ -58,11 +55,9 @@ public class EmployeeService {
                     updateListFile();
                     break;
                 } else {
-                    throw new IncorrectDataException();
+                    System.out.println("You've entered wrong data. Please try again");
                 }
-            } catch (IncorrectDataException e) {
-                System.out.println(e.getMessage());
-            }
+
         } while (true);
     }
 
@@ -70,12 +65,7 @@ public class EmployeeService {
 
         Employee employeeToEdit = null;
 
-        System.out.println("List of all employees :");
-        getList();
-
         do {
-            try {
-
                 Scanner sc = new Scanner(System.in);
                 System.out.println("Please choose the employee to edit. Enter the surname :");
                 String surname = sc.nextLine();
@@ -95,19 +85,13 @@ public class EmployeeService {
                     updateListFile();
                     break;
                 } else {
-                    throw new IncorrectDataException();
+                    System.out.println("You've entered wrong data. Please try again");
                 }
-            } catch (IncorrectDataException e) {
-                System.out.println(e.getMessage());
-                }
+
             } while (true);
         }
 
-        public void additionalFunctions (){
-       menuService.additionalFunctionsMenu();
-        }
-
-    public void countNumberOfEmp(float givenSalary) {
+    public int countNumberOfEmp(float givenSalary) {
         list = getList();
         int counter = 0;
         for(int i = 0; i<list.size(); i++){
@@ -115,16 +99,16 @@ public class EmployeeService {
                 counter++;
             }
         }
-        System.out.println("Number of employees which salary is higher than "+givenSalary+ " : "+counter);
+        return counter;
     }
 
-    public void countAverageSalary(int branch) {
+    public float countAverageSalary(int branch) {
         list = getList();
        int counter = 0;
        float allSalary = 0;
 
        for(int i = 0; i<list.size(); i++){
-           if(list.get(i).getNr_branch() == branch){
+           if(list.get(i).getNrBranch() == branch){
                float salary = list.get(i).getSalary();
                allSalary = allSalary + salary;
                counter++;
@@ -132,13 +116,12 @@ public class EmployeeService {
        }
         float averageSalary = allSalary / counter;
 
-        System.out.println("The average salary in branch nr "+branch+ " : "+averageSalary);
+        return averageSalary;
     }
 
-    public void displayHighestSalary() {
+    public float highestSalaryWomen() {
         list = getList();
        float highSalaryWomen = 0;
-       float highSalaryMen = 0;
 
        for(int i = 0; i<list.size(); i++){
            float salary = list.get(i).getSalary();
@@ -146,52 +129,30 @@ public class EmployeeService {
                if(highSalaryWomen < salary) {
                    highSalaryWomen = salary;
                     }
-               } else {
-                   if (highSalaryMen < salary){
-                       highSalaryMen = salary;
-                   }
                }
            }
-        System.out.println("The highest women's salary is : "+ highSalaryWomen);
-        System.out.println("The higest men's salary is : "+ highSalaryMen);
+        return highSalaryWomen;
     }
 
-    public void displayAllDepartments() {
+    public float highestSalaryMen (){
        list = getList();
-       int nr_Branch = 0;
-       int counterWomen = 0;
-       int counterMen = 0;
-       for (int i = 0; i <list.size(); i++){
-           if(nr_Branch != list.get(i).getNr_branch()) {
-               nr_Branch = list.get(i).getNr_branch();
-               if (list.get(i).getSex() == 'k') {
-                   counterWomen++;
-               } else {
-                   counterMen++;
+        float highSalaryMen = 0;
 
-               }
-               if (counterWomen > counterMen) {
-                   System.out.println("In branch nr " + list.get(i).getNr_branch() + " most employees are women");
-                   countAverageSalary(nr_Branch);
-               }
-               if (counterWomen < counterMen) {
-                   System.out.println("In branch nr " + list.get(i).getNr_branch() + " most employees are men");
-                   countAverageSalary(nr_Branch);
-               }
-               if (counterWomen == counterMen) {
-                   System.out.println("In branch nr " + list.get(i).getNr_branch() + " number of women is the same as number of men");
-                   countAverageSalary(nr_Branch);
-               }
-           }
-       }
+        for(int i = 0; i<list.size(); i++) {
+            float salary = list.get(i).getSalary();
+            if (list.get(i).getSex() == 'm') {
+                if (highSalaryMen < salary) {
+                    highSalaryMen = salary;
+                }
+            }
+        }
+        return highSalaryMen;
     }
 
-    public void displayRatioOfSalary() {
+    public float averageOfWomenSalary() {
        list = getList();
        float allWomenSalary = 0;
        int counterWomen = 0;
-       float allMenSalary = 0;
-       int counterMen = 0;
         float salary = 0;
 
        for (int i = 0; i < list.size(); i++){
@@ -199,15 +160,29 @@ public class EmployeeService {
            if (list.get(i).getSex() == 'k'){
                allWomenSalary = allWomenSalary + salary;
                counterWomen++;
-           } else {
-               allMenSalary = allMenSalary + salary;
-               counterMen++;
            }
        }
 
         float averageWomenSalary = allWomenSalary / counterWomen;
+       return averageWomenSalary;
+    }
+
+    public float averageOfMenSalary (){
+       list = getList();
+        float allMenSalary = 0;
+        int counterMen = 0;
+        float salary = 0;
+
+        for (int i = 0; i < list.size(); i++){
+            salary = list.get(i).getSalary();
+            if (list.get(i).getSex() == 'k'){
+                allMenSalary = allMenSalary + salary;
+                counterMen++;
+            }
+        }
+
         float averageMenSalary = allMenSalary / counterMen;
-        System.out.println("The ratio of women's salary to men's salary is "+ averageWomenSalary+" : "+averageMenSalary);
+        return averageMenSalary;
     }
 
     public void increaseSalary10per() {
@@ -216,11 +191,7 @@ public class EmployeeService {
        for(Employee employee : list){
            employee.countRise(0.10f);
        }
-
-        System.out.println("Salaries after rise");
-        updateListFile();
-        System.out.println(getList());
-
+       updateListFile();
     }
 
     public String increaseSalaryByAmount(float amount) {
@@ -248,9 +219,10 @@ public class EmployeeService {
     public void sortForSurname(boolean howSort) {
        list = getList();
        if (howSort){
-           Collections.sort(list, new EmplyeeSurnameComparator_Up());
+           Collections.sort(list, new EmplyeeSurnameComparator());
        } else {
-           Collections.sort(list, new EmployeeSurnameComparator_Down());
+           Collections.sort(list, new EmplyeeSurnameComparator());
+           Collections.reverse(list);
        }
        updateListFile();
     }
@@ -258,18 +230,17 @@ public class EmployeeService {
     public void sortForSalary(boolean howSort) {
         list = getList();
         if (howSort){
-            Collections.sort(list, new EmployeeSalaryComparator_Up());
+            Collections.sort(list, new EmployeeSalaryComparator());
         } else {
-            Collections.sort(list, new EmployeeSalaryComparator_Down());
+            Collections.sort(list, new EmployeeSalaryComparator());
+            Collections.reverse(list);
         }
         updateListFile();
     }
 
-    public void additionalFunctionsForFiles (){
-       menuService.additionalFunctionsForFilesMenu();
-    }
 
-    public void displayLongestSurname() {
+
+    public String longestSurname() {
        list = getList();
        String theLongestSurname = "";
 
@@ -278,21 +249,21 @@ public class EmployeeService {
                theLongestSurname = employee.getSurname();
            }
        }
-        System.out.println("Employee with the longest surname is : "+theLongestSurname);
+        return theLongestSurname;
     }
 
-    public void countAverageAge() {
+    public int countAverageAge() {
        list = getList();
        int counter = 0;
        int sumAge = 0;
        for(Employee employee : list){
-           if (employee.getNr_children() > 0){
+           if (employee.getNrChildren() > 0){
                sumAge = sumAge + employee.getAge();
                counter++;
            }
        }
        int averageAge = sumAge / counter;
-        System.out.println("The average age of employees who have children is : "+averageAge);
+       return averageAge;
     }
 
     public void encodeData() {
@@ -324,16 +295,6 @@ public class EmployeeService {
        updateListFile();
     }
 
-    public void createFile() {
-       fileService.createTable();
-    }
-
-    public void infoProgram (){
-        System.out.println("Program to support organization in company");
-    }
-
-    public void enterFileName() {
-    }
 }
 
 

@@ -1,20 +1,28 @@
 package pl.com.ttpsc.kursjava.services;
 
-import com.sun.javafx.binding.StringFormatter;
 import pl.com.ttpsc.kursjava.data.Employee;
 
 import java.io.*;
 import java.util.List;
 
-public class FileService {
+public final class FileService {
 
+    private final static FileService fileService = new FileService();
+
+    private FileService () {}
+
+    public static FileService getInstance(){
+        return fileService;
+    }
+
+    File f;
     private static final String BASE_FILE = "base.dat";
     private static final String TABLE_FILE = "employees.html";
 
     public void writeObject (List <Employee> list) {
 
         String fileName = BASE_FILE;
-        File f = new File(fileName);
+         f = new File(fileName);
 
         try (FileOutputStream file =new FileOutputStream(new File(fileName))){
             if(f.isFile());
@@ -34,8 +42,8 @@ public class FileService {
 
         List <Employee> listFromFile = null;
 
-        try (FileInputStream file = new FileInputStream(new File("base.dat"));){
-            try (ObjectInputStream input = new ObjectInputStream(file);){
+        try (FileInputStream file = new FileInputStream(new File(BASE_FILE))){
+            try (ObjectInputStream input = new ObjectInputStream(file)){
 
                 listFromFile = (List<Employee>) input.readObject();
 
@@ -52,16 +60,23 @@ public class FileService {
 
         try(PrintWriter pw = new PrintWriter(new FileWriter(TABLE_FILE))) {
 
-            pw.println("<TABLE><TR><TH>Surname<TH>Name<TH>Sex<TH>Nr_branch<TH>Salary<TH>Age</TR>");
+            pw.println("<TABLE>\n<TR><TH>Surname\t<TH>Name\t<TH>Sex\t<TH>NrBranch\t<TH>Salary\t<TH>Age\t</TR>");
 
             for (Employee employee : readObject()){
-                pw.println("<TD>"+employee.getSurname()+"<TD>"+employee.getName()+"<TD>"+employee.getSex()+"<TD>"+
-                        employee.getNr_branch()+"<TD>"+employee.getSalary()+"<TD>"+employee.getAge());
+                pw.println("\t<tr><TD>"+employee.getSurname()+"\t<TD>"+employee.getName()+"\t<TD>"+employee.getSex()+"\t<TD>"+
+                        employee.getNrBranch()+"\t<TD>"+employee.getSalary()+"\t<TD>"+employee.getAge()+"<TD>");
             }
             pw.println("</TABLE>");
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void changeFileName (String nameFile) {
+        f = new File("base.dat");
+        if(f.exists()){
+            f.renameTo(new File(nameFile));
         }
     }
 }
