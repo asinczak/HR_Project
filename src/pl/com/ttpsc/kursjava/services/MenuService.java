@@ -2,6 +2,7 @@ package pl.com.ttpsc.kursjava.services;
 
 import pl.com.ttpsc.kursjava.data.Employee;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public final class MenuService {
@@ -238,22 +239,44 @@ public final class MenuService {
                 case 2:
                     System.out.println("Enter data to add employee. Enter name :");
                     String name = sc.next();
+
                     System.out.println("Enter the surname :");
                     String surname = sc.next();
-                    System.out.println("Enter the sex : ");
-                    char sex = sc.next().charAt(0);
-                    System.out.println("Enter the number of department :");
-                    int nr_branch = sc.nextInt();
-                    System.out.println("Enter the salary :");
-                    float salary = sc.nextFloat();
-                    System.out.println("Enter the age :");
-                    int age = sc.nextInt();
-                    System.out.println("Enter the number of children :");
-                    int nr_children = sc.nextInt();
-                    System.out.println("Enter -true- if employee is married");
-                    System.out.println("Enter -false- if emploee is not married");
-                    boolean isMarried = sc.nextBoolean();
-                    Employee employee = new Employee(name,surname,sex,nr_branch,salary,age,nr_children,isMarried);
+
+                    char sex;
+                    do {
+                        System.out.println("Enter the sex ( k / m ) : ");
+                        char check = sc.next().charAt(0);
+                        if (check == 'k' || check == 'm'){
+                             sex = check;
+                             break;
+                        }
+                        else  {
+                            System.out.println("Wrong data! Enter one more time ");
+                        }
+                    }while (true);
+
+                    int nrBranch;
+                    do {
+
+                        int checking = readInt("Enter the number of department (1-10) :");
+                        if (checking <= 10 & checking >= 1) {
+                            nrBranch = checking;
+                            break;
+                        } else {
+                            System.out.println("Wrong data! Enter one more time ");
+                        }
+                    }while (true);
+
+                    float salary = readFloat("Enter the salary :");
+
+                    int age = readInt("Enter the age :");
+
+                    int nr_children = readInt("Enter the number of children :");
+
+                    boolean isMarried = readBoolean ("Enter -true- if employee is married or -fasle- if not");
+
+                    Employee employee = new Employee(name,surname,sex,nrBranch,salary,age,nr_children,isMarried);
                     employeeService.addEmployee(employee);
                     break;
                 case 3:
@@ -287,6 +310,66 @@ public final class MenuService {
                     System.out.println("Wrong number! Choose one more time!");
             }
         } while (switchgoes);
+    }
+
+    private boolean readBoolean(String s) {
+            Scanner sc = new Scanner(System.in);
+            boolean checking = true;
+            boolean loop = true;
+
+            while (loop){
+                try {
+
+                    System.out.println(s);
+                    checking = sc.nextBoolean();
+                    loop = false;
+                } catch (InputMismatchException e){
+                    System.out.println("Wrong data! Try one more time");
+                    sc.next();
+
+                }
+            }
+            return checking;
+    }
+
+    private int readInt (String str){
+        Scanner sc = new Scanner(System.in);
+        int checking = 0;
+        boolean loop = true;
+
+        while (loop){
+            try {
+
+                System.out.println(str);
+                checking = sc.nextInt();
+                loop = false;
+            } catch (InputMismatchException e){
+                System.out.println("Wrong data! Try one more time");
+                sc.next();
+
+            }
+        }
+           return checking;
+    }
+
+    private float readFloat (String str){
+        Scanner sc = new Scanner(System.in);
+        float checking = 0;
+        boolean loop = true;
+
+        while (loop){
+            try {
+
+                System.out.println(str);
+                checking = sc.nextFloat();
+                loop = false;
+            } catch (InputMismatchException e){
+                System.out.println("Wrong data! Try one more time");
+                sc.next();
+
+            }
+        }
+        return checking;
     }
 
     public void displayAllDepartments() {

@@ -28,6 +28,31 @@ public final class EmployeeService {
         fileService.writeObject(list);
     }
 
+    public static String enterDataCorrectly (String str) {
+       String correctStr = str.substring(0,1).toUpperCase() + str.substring(1).toLowerCase().replaceAll("\\s\\d", "");
+       return correctStr;
+    }
+
+    public boolean CheckingSalary (double salary, Employee employee){
+        if (employee.getSalary() > salary){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void countRise (float percent, Employee employee) {
+       float employeeSalary = employee.getSalary();
+        float salary = employeeSalary * percent + employeeSalary;
+        if (employee.getNrChildren() > 0){
+            salary = (float) (salary * 0.02 * employee.getNrChildren() + salary);
+        }
+        if (employee.isMaritalStatus()){
+            salary = (float) (salary * 0.03 + salary);
+        }
+        employee.setSalary(salary);
+    }
+
     public void addEmployee (Employee employee){
        list = getList();
         list.add(employee);
@@ -189,7 +214,7 @@ public final class EmployeeService {
        list = getList();
 
        for(Employee employee : list){
-           employee.countRise(0.10f);
+           countRise(0.10f, employee);
        }
        updateListFile();
     }

@@ -1,0 +1,9 @@
+DISPLAY EDIT DATA MENU=****************************
+DISPLAY EDIT DATA MENU=Please choose data to change :
+DISPLAY EDIT DATA MENU=1 -> Surname (only women)
+DISPLAY EDIT DATA MENU=2 -> Department number
+DISPLAY EDIT DATA MENU=3 -> Salary
+DISPLAY EDIT DATA MENU=4 -> Age
+DISPLAY EDIT DATA MENU=5 -> Number of children
+DISPLAY EDIT DATA MENU=6 -> Marital status
+DISPLAY EDIT DATA MENU=7 -> Finish

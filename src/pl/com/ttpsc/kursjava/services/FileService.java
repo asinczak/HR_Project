@@ -3,6 +3,7 @@ package pl.com.ttpsc.kursjava.services;
 import pl.com.ttpsc.kursjava.data.Employee;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.List;
 
 public final class FileService {
@@ -41,15 +42,26 @@ public final class FileService {
     public List <Employee> readObject () {
 
         List <Employee> listFromFile = null;
+        File fileCheck = new File(BASE_FILE);
 
-        try (FileInputStream file = new FileInputStream(new File(BASE_FILE))){
-            try (ObjectInputStream input = new ObjectInputStream(file)){
+        try (FileInputStream file = new FileInputStream(fileCheck)){
+            if (fileCheck.exists()) {
+                try (ObjectInputStream input = new ObjectInputStream(file)) {
 
-                listFromFile = (List<Employee>) input.readObject();
+                    listFromFile = (List<Employee>) input.readObject();
 
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try (FileOutputStream NewFile =new FileOutputStream(new File(BASE_FILE))){
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,5 +90,22 @@ public final class FileService {
         if(f.exists()){
             f.renameTo(new File(nameFile));
         }
+    }
+
+    public void readInEng() {
+        File file = new File("GeneralMessages.java");
+
+        if (file.exists()) {
+
+            try (BufferedReader fileReader = new BufferedReader(new FileReader(file))) {
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+            public void readInPl() {
     }
 }

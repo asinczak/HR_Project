@@ -1,5 +1,7 @@
 package pl.com.ttpsc.kursjava.data;
 
+import pl.com.ttpsc.kursjava.services.EmployeeService;
+
 import java.io.Serializable;
 
 public class Employee implements Serializable {
@@ -16,11 +18,8 @@ public class Employee implements Serializable {
    private boolean maritalStatus;
 
     public Employee(String name, String surname, char sex, int nrBranch, float salary, int age, int nrChildren, boolean maritalStatus) {
-
-        String correctWrittenName = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
-        String correctWrittenSurname = surname.substring(0,1).toUpperCase() + surname.substring(1).toLowerCase();
-        this.name = correctWrittenName.replaceAll("\\s\\d", "");
-        this.surname = correctWrittenSurname.replaceAll("\\s\\d", "");
+        this.name = EmployeeService.enterDataCorrectly(name);
+        this.surname = EmployeeService.enterDataCorrectly(surname);
         this.sex = sex;
         this.nrBranch = nrBranch;
         this.salary = salary;
@@ -109,22 +108,4 @@ public class Employee implements Serializable {
        return getSurname()+" "+getName()+" "+ getSex()+" "+ getNrBranch()+" "+ getSalary()+" "+ getAge()+" "+ getNrChildren();
     }
 
-    public boolean CheckingSalary (double salary){
-        if (this.salary > salary){
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void countRise (float percent) {
-        float salary = getSalary() * percent + getSalary();
-        if (getNrChildren() > 0){
-            salary = (float) (salary * 0.02 * getNrChildren() + salary);
-        }
-        if (isMaritalStatus()){
-            salary = (float) (salary * 0.03 + salary);
-        }
-        setSalary(salary);
-    }
 }
