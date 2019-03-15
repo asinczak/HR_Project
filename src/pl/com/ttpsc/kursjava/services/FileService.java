@@ -92,20 +92,4 @@ public final class FileService {
         }
     }
 
-    public void readInEng() {
-        File file = new File("GeneralMessages.java");
-
-        if (file.exists()) {
-
-            try (BufferedReader fileReader = new BufferedReader(new FileReader(file))) {
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-            public void readInPl() {
-    }
 }

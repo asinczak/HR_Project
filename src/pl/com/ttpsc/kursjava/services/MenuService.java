@@ -8,7 +8,7 @@ import java.util.Scanner;
 public final class MenuService {
 
     private static final MenuService menuService = new MenuService();
-
+    private String chosenLanguage = "";
     private MenuService () {}
 
     public static MenuService getInstance() {
@@ -18,25 +18,13 @@ public final class MenuService {
     DisplayService displayService = new DisplayService();
     FileService fileService = FileService.getInstance();
 
-        public void displayEditDataMenu (){
-            System.out.println("****************************");
-            System.out.println("Please choose data to change :");
-            System.out.println("1 -> Surname (only women)");
-            System.out.println("2 -> Department number");
-            System.out.println("3 -> Salary");
-            System.out.println("4 -> Age");
-            System.out.println("5 -> Number of children");
-            System.out.println("6 -> Marital status");
-            System.out.println("7 -> Finish");
-        }
 
         public void editDataMenu (Employee employee){
             Scanner sc = new Scanner(System.in);
             boolean switchgoes = true;
 
             do {
-
-                displayEditDataMenu();
+                readEditDataMenu();
                 int menuNumber = sc.nextInt();
 
                 switch (menuNumber) {
@@ -88,22 +76,6 @@ public final class MenuService {
             } while (switchgoes);
         }
 
-        public void displayAdditionalFunctionsMenu (){
-            System.out.println("****************************");
-            System.out.println("Please choose one option :");
-            System.out.println("1 -> Count the number of employees which have salary higher than given salary");
-            System.out.println("2 -> Count the average of salary in given department");
-            System.out.println("3 -> Display the highest salary from all women and from all men");
-            System.out.println("4 -> Display all departments and the information if majority of employees is women or men");
-            System.out.println("5 -> Display ratio of average women's salary to average men's salary");
-            System.out.println("6 -> Increase of salary by 10 percent and by additional feature");
-            System.out.println("7 -> Increase of salary by given amount. Display the sum of rise and ratio of rise for women and men");
-            System.out.println("8 -> Sort employees in file according to surname");
-            System.out.println("9 -> Sort employees in file according to the high of salary");
-            System.out.println("10 -> Finish");
-        }
-
-
     public void additionalFunctionsMenu() {
             Scanner sc = new Scanner(System.in);
 
@@ -111,7 +83,7 @@ public final class MenuService {
 
         do {
 
-            displayAdditionalFunctionsMenu();
+            readAdditionalFunctionsMenu();
             int menuNumber = sc.nextInt();
 
             switch (menuNumber) {
@@ -164,15 +136,8 @@ public final class MenuService {
         } while (switchgoes);
     }
 
-    public void displayAdditionalFunctionsForFilesMenu () {
-        System.out.println("******************************");
-        System.out.println("Please choose one option :");
-        System.out.println("1 -> Display data with employee who has the longest surname");
-        System.out.println("2 -> Count average age of employees who have children");
-        System.out.println("3 -> Encode some data in file");
-        System.out.println("4 -> Create file = Employees.html");
-        System.out.println("5 -> Finish");
-    }
+
+
 
     public void additionalFunctionsForFilesMenu () {
         Scanner sc = new Scanner(System.in);
@@ -181,7 +146,7 @@ public final class MenuService {
 
         do {
 
-            displayAdditionalFunctionsForFilesMenu();
+            readAdditionalFunctionsForFilesMenu();
             int menuNumber = sc.nextInt();
 
             switch (menuNumber) {
@@ -207,29 +172,17 @@ public final class MenuService {
         } while (switchgoes);
     }
 
-    public void displayMainMenu (){
-        System.out.println("******************************");
-        System.out.println("Please choose one option :");
-        System.out.println("1 -> Display list of employees in short way");
-        System.out.println("2 -> Add new employee");
-        System.out.println("3 -> Export data to file");
-        System.out.println("4 -> Remove employee");
-        System.out.println("5 - > Edit data");
-        System.out.println("6 -> Additional functions");
-        System.out.println("7 -> Additional functions for files");
-        System.out.println("8 -> Information about program");
-        System.out.println("9 -> Enter own name of file");
-        System.out.println("10 -> Finish");
-    }
 
     public void mainMenu (){
         Scanner sc = new Scanner(System.in);
+
+        PropertiesService.setMenuDefaultLanguage();
 
         boolean switchgoes = true;
 
         do {
 
-            displayMainMenu();
+            readMainMenu();
             int menuNumber = sc.nextInt();
 
             switch (menuNumber) {
@@ -303,6 +256,16 @@ public final class MenuService {
                     fileService.changeFileName(nameFile);
                     break;
                 case 10:
+                        System.out.println("Choose the language for displaying: 'pl' or 'eng'");
+                         chosenLanguage = sc.next();
+                    if (chosenLanguage.equals("pl") || chosenLanguage.equals("eng")){
+                        PropertiesService.changeMenuLahguage(chosenLanguage);
+                    } else {
+                        System.out.println("Wrong language! Default language will be set");
+                        PropertiesService.setMenuDefaultLanguage();
+                    }
+                    break;
+                case 11:
                     System.out.println("Finish");
                     switchgoes = false;
                     break;
@@ -400,5 +363,125 @@ public final class MenuService {
                 }
             }
         }
+    }
+
+
+    public void readMainMenu() {
+            chosenLanguage = PropertiesService.readMenuLanguage();
+
+            if (chosenLanguage.equals("en")){
+                System.out.println(GeneralMessages.MAIN_MENU1);
+                System.out.println(GeneralMessages.MAIN_MENU2);
+                System.out.println(GeneralMessages.MAIN_MENU3);
+                System.out.println(GeneralMessages.MAIN_MENU4);
+                System.out.println(GeneralMessages.MAIN_MENU5);
+                System.out.println(GeneralMessages.MAIN_MENU6);
+                System.out.println(GeneralMessages.MAIN_MENU7);
+                System.out.println(GeneralMessages.MAIN_MENU8);
+                System.out.println(GeneralMessages.MAIN_MENU9);
+                System.out.println(GeneralMessages.MAIN_MENU10);
+                System.out.println(GeneralMessages.MAIN_MENU11);
+                System.out.println(GeneralMessages.MAIN_MENU12);
+                System.out.println(GeneralMessages.MAIN_MENU13);
+            }
+            if (chosenLanguage.equals("pl")){
+                System.out.println(GeneralMessages_pl.MAIN_MENU1);
+                System.out.println(GeneralMessages_pl.MAIN_MENU2);
+                System.out.println(GeneralMessages_pl.MAIN_MENU3);
+                System.out.println(GeneralMessages_pl.MAIN_MENU4);
+                System.out.println(GeneralMessages_pl.MAIN_MENU5);
+                System.out.println(GeneralMessages_pl.MAIN_MENU6);
+                System.out.println(GeneralMessages_pl.MAIN_MENU7);
+                System.out.println(GeneralMessages_pl.MAIN_MENU8);
+                System.out.println(GeneralMessages_pl.MAIN_MENU9);
+                System.out.println(GeneralMessages_pl.MAIN_MENU10);
+                System.out.println(GeneralMessages_pl.MAIN_MENU11);
+                System.out.println(GeneralMessages_pl.MAIN_MENU12);
+                System.out.println(GeneralMessages_pl.MAIN_MENU13);
+            }
+    }
+
+    private void readEditDataMenu() {
+        chosenLanguage = PropertiesService.readMenuLanguage();
+
+        if(chosenLanguage.equals("en")){
+            System.out.println(GeneralMessages.EDIT_DATA_MENU1);
+            System.out.println(GeneralMessages.EDIT_DATA_MENU2);
+            System.out.println(GeneralMessages.EDIT_DATA_MENU3);
+            System.out.println(GeneralMessages.EDIT_DATA_MENU4);
+            System.out.println(GeneralMessages.EDIT_DATA_MENU5);
+            System.out.println(GeneralMessages.EDIT_DATA_MENU6);
+            System.out.println(GeneralMessages.EDIT_DATA_MENU7);
+            System.out.println(GeneralMessages.EDIT_DATA_MENU8);
+            System.out.println(GeneralMessages.EDIT_DATA_MENU9);
+        }
+        if(chosenLanguage.equals("pl")){
+            System.out.println(GeneralMessages_pl.EDIT_DATA_MENU1);
+            System.out.println(GeneralMessages_pl.EDIT_DATA_MENU2);
+            System.out.println(GeneralMessages_pl.EDIT_DATA_MENU3);
+            System.out.println(GeneralMessages_pl.EDIT_DATA_MENU4);
+            System.out.println(GeneralMessages_pl.EDIT_DATA_MENU5);
+            System.out.println(GeneralMessages_pl.EDIT_DATA_MENU6);
+            System.out.println(GeneralMessages_pl.EDIT_DATA_MENU7);
+            System.out.println(GeneralMessages_pl.EDIT_DATA_MENU8);
+            System.out.println(GeneralMessages_pl.EDIT_DATA_MENU9);
+        }
+    }
+
+    private void readAdditionalFunctionsMenu() {
+            chosenLanguage = PropertiesService.readMenuLanguage();
+
+            if (chosenLanguage.equals("en")){
+                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU1);
+                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU2);
+                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU3);
+                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU4);
+                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU5);
+                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU6);
+                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU7);
+                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU8);
+                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU9);
+                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU10);
+                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU11);
+                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU12);
+            }
+            if (chosenLanguage.equals("pl")){
+                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU1);
+                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU2);
+                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU3);
+                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU4);
+                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU5);
+                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU6);
+                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU7);
+                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU8);
+                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU9);
+                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU10);
+                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU11);
+                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU12);
+            }
+    }
+
+    private void readAdditionalFunctionsForFilesMenu() {
+        chosenLanguage = PropertiesService.readMenuLanguage();
+
+        if(chosenLanguage.equals("en")){
+            System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES1);
+            System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES2);
+            System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES3);
+            System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES4);
+            System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES5);
+            System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES6);
+            System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES7);
+        }
+        if(chosenLanguage.equals("pl")){
+            System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES1);
+            System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES2);
+            System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES3);
+            System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES4);
+            System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES5);
+            System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES6);
+            System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES7);
+        }
+
     }
 }

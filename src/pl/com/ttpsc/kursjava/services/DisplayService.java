@@ -15,13 +15,13 @@ public class DisplayService {
 
     public void displayRemoveEmployee () {
         System.out.println("List of all employees :");
-        employeeService.getList();
+        displayList();
         employeeService.removeEmployee();
     }
 
     public void displayEditData() {
         System.out.println("List of all employees :");
-        employeeService.getList();
+       displayList();
         employeeService.editData();
     }
 

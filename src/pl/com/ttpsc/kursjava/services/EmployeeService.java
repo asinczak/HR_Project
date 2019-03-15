@@ -87,13 +87,13 @@ public final class EmployeeService {
     }
 
     public void editData ( ) {
-
+        list = getList();
         Employee employeeToEdit = null;
 
         do {
                 Scanner sc = new Scanner(System.in);
                 System.out.println("Please choose the employee to edit. Enter the surname :");
-                String surname = sc.nextLine();
+                String surname = sc.next();
 
                 for (int i = 0; i < list.size(); i++) {
                     if (list.get(i).getSurname().equals(surname)) {
