@@ -7,13 +7,18 @@ import java.util.Scanner;
 
 public final class MenuService {
 
-    private static final MenuService menuService = new MenuService();
-    private String chosenLanguage = "";
+    private static MenuService menuService;
+
     private MenuService () {}
 
     public static MenuService getInstance() {
+        if(menuService == null){
+            menuService = new MenuService();
+        }
         return menuService;
     }
+
+    private String chosenLanguage = "";
     EmployeeService employeeService = EmployeeService.getInstance();
     DisplayService displayService = new DisplayService();
     FileService fileService = FileService.getInstance();
