@@ -2,6 +2,7 @@ package pl.com.ttpsc.kursjava.services;
 
 import pl.com.ttpsc.kursjava.data.Employee;
 
+import java.lang.reflect.Field;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -29,7 +30,13 @@ public final class MenuService {
             boolean switchgoes = true;
 
             do {
-                readEditDataMenu();
+                try {
+                    readEditDataMenu();
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
                 int menuNumber = sc.nextInt();
 
                 switch (menuNumber) {
@@ -88,7 +95,13 @@ public final class MenuService {
 
         do {
 
-            readAdditionalFunctionsMenu();
+            try {
+                readAdditionalFunctionsMenu();
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
             int menuNumber = sc.nextInt();
 
             switch (menuNumber) {
@@ -151,7 +164,13 @@ public final class MenuService {
 
         do {
 
-            readAdditionalFunctionsForFilesMenu();
+            try {
+                readAdditionalFunctionsForFilesMenu();
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
             int menuNumber = sc.nextInt();
 
             switch (menuNumber) {
@@ -187,7 +206,13 @@ public final class MenuService {
 
         do {
 
-            readMainMenu();
+            try {
+                readMainMenu();
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
             int menuNumber = sc.nextInt();
 
             switch (menuNumber) {
@@ -334,7 +359,6 @@ public final class MenuService {
             } catch (InputMismatchException e){
                 System.out.println("Wrong data! Try one more time");
                 sc.next();
-
             }
         }
         return checking;
@@ -371,122 +395,94 @@ public final class MenuService {
     }
 
 
-    public void readMainMenu() {
+    public void readMainMenu() throws NoSuchFieldException, IllegalAccessException {
             chosenLanguage = PropertiesService.readMenuLanguage();
+        Class clazz = null;
+        try {
+            clazz = Class.forName("pl.com.ttpsc.kursjava.services.GeneralMessages_" + chosenLanguage);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        System.out.println(clazz.getField("MAIN_MENU1").get(null));
+        System.out.println(clazz.getField("MAIN_MENU2").get(null));
+        System.out.println(clazz.getField("MAIN_MENU3").get(null));
+        System.out.println(clazz.getField("MAIN_MENU4").get(null));
+        System.out.println(clazz.getField("MAIN_MENU5").get(null));
+        System.out.println(clazz.getField("MAIN_MENU6").get(null));
+        System.out.println(clazz.getField("MAIN_MENU7").get(null));
+        System.out.println(clazz.getField("MAIN_MENU8").get(null));
+        System.out.println(clazz.getField("MAIN_MENU9").get(null));
+        System.out.println(clazz.getField("MAIN_MENU10").get(null));
+        System.out.println(clazz.getField("MAIN_MENU11").get(null));
+        System.out.println(clazz.getField("MAIN_MENU12").get(null));
+        System.out.println(clazz.getField("MAIN_MENU13").get(null));
 
-            if (chosenLanguage.equals("en")){
-                System.out.println(GeneralMessages.MAIN_MENU1);
-                System.out.println(GeneralMessages.MAIN_MENU2);
-                System.out.println(GeneralMessages.MAIN_MENU3);
-                System.out.println(GeneralMessages.MAIN_MENU4);
-                System.out.println(GeneralMessages.MAIN_MENU5);
-                System.out.println(GeneralMessages.MAIN_MENU6);
-                System.out.println(GeneralMessages.MAIN_MENU7);
-                System.out.println(GeneralMessages.MAIN_MENU8);
-                System.out.println(GeneralMessages.MAIN_MENU9);
-                System.out.println(GeneralMessages.MAIN_MENU10);
-                System.out.println(GeneralMessages.MAIN_MENU11);
-                System.out.println(GeneralMessages.MAIN_MENU12);
-                System.out.println(GeneralMessages.MAIN_MENU13);
-            }
-            if (chosenLanguage.equals("pl")){
-                System.out.println(GeneralMessages_pl.MAIN_MENU1);
-                System.out.println(GeneralMessages_pl.MAIN_MENU2);
-                System.out.println(GeneralMessages_pl.MAIN_MENU3);
-                System.out.println(GeneralMessages_pl.MAIN_MENU4);
-                System.out.println(GeneralMessages_pl.MAIN_MENU5);
-                System.out.println(GeneralMessages_pl.MAIN_MENU6);
-                System.out.println(GeneralMessages_pl.MAIN_MENU7);
-                System.out.println(GeneralMessages_pl.MAIN_MENU8);
-                System.out.println(GeneralMessages_pl.MAIN_MENU9);
-                System.out.println(GeneralMessages_pl.MAIN_MENU10);
-                System.out.println(GeneralMessages_pl.MAIN_MENU11);
-                System.out.println(GeneralMessages_pl.MAIN_MENU12);
-                System.out.println(GeneralMessages_pl.MAIN_MENU13);
-            }
     }
 
-    private void readEditDataMenu() {
+    private void readEditDataMenu() throws NoSuchFieldException, IllegalAccessException {
         chosenLanguage = PropertiesService.readMenuLanguage();
 
-        if(chosenLanguage.equals("en")){
-            System.out.println(GeneralMessages.EDIT_DATA_MENU1);
-            System.out.println(GeneralMessages.EDIT_DATA_MENU2);
-            System.out.println(GeneralMessages.EDIT_DATA_MENU3);
-            System.out.println(GeneralMessages.EDIT_DATA_MENU4);
-            System.out.println(GeneralMessages.EDIT_DATA_MENU5);
-            System.out.println(GeneralMessages.EDIT_DATA_MENU6);
-            System.out.println(GeneralMessages.EDIT_DATA_MENU7);
-            System.out.println(GeneralMessages.EDIT_DATA_MENU8);
-            System.out.println(GeneralMessages.EDIT_DATA_MENU9);
+        Class clazz = null;
+        try {
+            clazz = Class.forName("pl.com.ttpsc.kursjava.services.GeneralMessages_" + chosenLanguage);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
-        if(chosenLanguage.equals("pl")){
-            System.out.println(GeneralMessages_pl.EDIT_DATA_MENU1);
-            System.out.println(GeneralMessages_pl.EDIT_DATA_MENU2);
-            System.out.println(GeneralMessages_pl.EDIT_DATA_MENU3);
-            System.out.println(GeneralMessages_pl.EDIT_DATA_MENU4);
-            System.out.println(GeneralMessages_pl.EDIT_DATA_MENU5);
-            System.out.println(GeneralMessages_pl.EDIT_DATA_MENU6);
-            System.out.println(GeneralMessages_pl.EDIT_DATA_MENU7);
-            System.out.println(GeneralMessages_pl.EDIT_DATA_MENU8);
-            System.out.println(GeneralMessages_pl.EDIT_DATA_MENU9);
-        }
+
+
+            System.out.println(clazz.getField("EDIT_DATA_MENU1").get(null));
+            System.out.println(clazz.getField("EDIT_DATA_MENU2").get(null));
+            System.out.println(clazz.getField("EDIT_DATA_MENU3").get(null));
+            System.out.println(clazz.getField("EDIT_DATA_MENU4").get(null));
+            System.out.println(clazz.getField("EDIT_DATA_MENU5").get(null));
+            System.out.println(clazz.getField("EDIT_DATA_MENU6").get(null));
+            System.out.println(clazz.getField("EDIT_DATA_MENU7").get(null));
+            System.out.println(clazz.getField("EDIT_DATA_MENU8").get(null));
+            System.out.println(clazz.getField("EDIT_DATA_MENU9").get(null));
+
     }
 
-    private void readAdditionalFunctionsMenu() {
+    private void readAdditionalFunctionsMenu() throws NoSuchFieldException, IllegalAccessException {
             chosenLanguage = PropertiesService.readMenuLanguage();
 
-            if (chosenLanguage.equals("en")){
-                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU1);
-                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU2);
-                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU3);
-                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU4);
-                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU5);
-                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU6);
-                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU7);
-                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU8);
-                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU9);
-                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU10);
-                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU11);
-                System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU12);
-            }
-            if (chosenLanguage.equals("pl")){
-                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU1);
-                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU2);
-                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU3);
-                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU4);
-                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU5);
-                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU6);
-                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU7);
-                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU8);
-                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU9);
-                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU10);
-                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU11);
-                System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU12);
-            }
+        Class clazz = null;
+        try {
+            clazz = Class.forName("pl.com.ttpsc.kursjava.services.GeneralMessages_" + chosenLanguage);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println( clazz.getField("ADDITIONAL_FUNCTIONS_MENU1").get(null));
+        System.out.println( clazz.getField("ADDITIONAL_FUNCTIONS_MENU2").get(null));
+        System.out.println( clazz.getField("ADDITIONAL_FUNCTIONS_MENU3").get(null));
+        System.out.println( clazz.getField("ADDITIONAL_FUNCTIONS_MENU4").get(null));
+        System.out.println( clazz.getField("ADDITIONAL_FUNCTIONS_MENU5").get(null));
+        System.out.println( clazz.getField("ADDITIONAL_FUNCTIONS_MENU6").get(null));
+        System.out.println( clazz.getField("ADDITIONAL_FUNCTIONS_MENU7").get(null));
+        System.out.println( clazz.getField("ADDITIONAL_FUNCTIONS_MENU8").get(null));
+        System.out.println( clazz.getField("ADDITIONAL_FUNCTIONS_MENU9").get(null));
+        System.out.println( clazz.getField("ADDITIONAL_FUNCTIONS_MENU10").get(null));
+        System.out.println( clazz.getField("ADDITIONAL_FUNCTIONS_MENU11").get(null));
+        System.out.println( clazz.getField("ADDITIONAL_FUNCTIONS_MENU12").get(null));
+
     }
 
-    private void readAdditionalFunctionsForFilesMenu() {
+    private void readAdditionalFunctionsForFilesMenu() throws NoSuchFieldException, IllegalAccessException {
         chosenLanguage = PropertiesService.readMenuLanguage();
 
-        if(chosenLanguage.equals("en")){
-            System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES1);
-            System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES2);
-            System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES3);
-            System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES4);
-            System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES5);
-            System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES6);
-            System.out.println(GeneralMessages.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES7);
-        }
-        if(chosenLanguage.equals("pl")){
-            System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES1);
-            System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES2);
-            System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES3);
-            System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES4);
-            System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES5);
-            System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES6);
-            System.out.println(GeneralMessages_pl.ADDITIONAL_FUNCTIONS_MENU_FOR_FILES7);
+        Class clazz = null;
+        try {
+            clazz = Class.forName("pl.com.ttpsc.kursjava.services.GeneralMessages_"+ chosenLanguage);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
+            System.out.println(clazz.getField("ADDITIONAL_FUNCTIONS_MENU_FOR_FILES1").get(null));
+            System.out.println(clazz.getField("ADDITIONAL_FUNCTIONS_MENU_FOR_FILES2").get(null));
+            System.out.println(clazz.getField("ADDITIONAL_FUNCTIONS_MENU_FOR_FILES3").get(null));
+            System.out.println(clazz.getField("ADDITIONAL_FUNCTIONS_MENU_FOR_FILES4").get(null));
+            System.out.println(clazz.getField("ADDITIONAL_FUNCTIONS_MENU_FOR_FILES5").get(null));
+            System.out.println(clazz.getField("ADDITIONAL_FUNCTIONS_MENU_FOR_FILES6").get(null));
+            System.out.println(clazz.getField("ADDITIONAL_FUNCTIONS_MENU_FOR_FILES7").get(null));
     }
 }
