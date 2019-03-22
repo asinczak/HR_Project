@@ -38,7 +38,7 @@ public class DisplayService {
     public void displayIncreaseSalary10per() {
         employeeService.increaseSalary10per();
         System.out.println("Salaries after rise");
-        System.out.println(employeeService.getList());
+        System.out.println(employeeService.getEmployees().getList());
     }
 
     public void displayLongestSurname() {

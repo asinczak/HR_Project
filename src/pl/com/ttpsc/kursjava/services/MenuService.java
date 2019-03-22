@@ -365,29 +365,29 @@ public final class MenuService {
     }
 
     public void displayAllDepartments() {
-        employeeService.list = employeeService.getList();
+        employeeService.list = employeeService.getEmployees();
         int nrBranch = 0;
         int counterWomen = 0;
         int counterMen = 0;
-        for (int i = 0; i <employeeService.list.size(); i++){
-            if(nrBranch != employeeService.list.get(i).getNrBranch()) {
-                nrBranch = employeeService.list.get(i).getNrBranch();
-                if (employeeService.list.get(i).getSex() == 'k') {
+        for (int i = 0; i <employeeService.list.getList().size(); i++){
+            if(nrBranch != employeeService.list.getList().get(i).getNrBranch()) {
+                nrBranch = employeeService.list.getList().get(i).getNrBranch();
+                if (employeeService.list.getList().get(i).getSex() == 'k') {
                     counterWomen++;
                 } else {
                     counterMen++;
 
                 }
                 if (counterWomen > counterMen) {
-                    System.out.println("In branch nr " + employeeService.list.get(i).getNrBranch() + " most employees are women");
+                    System.out.println("In branch nr " + employeeService.list.getList().get(i).getNrBranch() + " most employees are women");
                     employeeService.countAverageSalary(nrBranch);
                 }
                 if (counterWomen < counterMen) {
-                    System.out.println("In branch nr " + employeeService.list.get(i).getNrBranch() + " most employees are men");
+                    System.out.println("In branch nr " + employeeService.list.getList().get(i).getNrBranch() + " most employees are men");
                     employeeService.countAverageSalary(nrBranch);
                 }
                 if (counterWomen == counterMen) {
-                    System.out.println("In branch nr " + employeeService.list.get(i).getNrBranch() + " number of women is the same as number of men");
+                    System.out.println("In branch nr " + employeeService.list.getList().get(i).getNrBranch() + " number of women is the same as number of men");
                     employeeService.countAverageSalary(nrBranch);
                 }
             }

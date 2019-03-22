@@ -3,7 +3,6 @@ package pl.com.ttpsc.kursjava.services;
 import pl.com.ttpsc.kursjava.comparators.EmployeeSalaryComparator;
 import pl.com.ttpsc.kursjava.comparators.EmplyeeSurnameComparator;
 import pl.com.ttpsc.kursjava.data.*;
-
 import java.util.*;
 
 public final class EmployeeService {
@@ -16,16 +15,18 @@ public final class EmployeeService {
         return employeeService;
     }
 
-    List<Employee> list = new ArrayList<>();
+   Employees list = null;
+
     FileService fileService = FileService.getInstance();
     MenuService menuService = MenuService.getInstance();
 
-   public List <Employee> getList () {
-      return fileService.readObject();
+   public Employees getEmployees () {
+       list = new Employees();
+      return list;
    }
 
      void updateListFile() {
-        fileService.writeObject(list);
+        fileService.writeObject(getEmployees().getList());
     }
 
     public static String enterDataCorrectly (String str) {
@@ -54,13 +55,13 @@ public final class EmployeeService {
     }
 
     public void addEmployee (Employee employee){
-       list = getList();
-        list.add(employee);
+        list = getEmployees();
+        list.getList().add(employee);
         updateListFile();
     }
 
     public void removeEmployee () {
-       list = getList();
+       list = getEmployees();
         Employee employeeToRemove = null;
 
         Scanner sc = new Scanner(System.in);
@@ -70,13 +71,13 @@ public final class EmployeeService {
                 System.out.println("Enter the surname :");
                 String surname = sc.nextLine();
 
-                for (int i = 0; i < list.size();i++){
-                    if (list.get(i).getName().equals(name) & list.get(i).getSurname().equals(surname)){
-                         employeeToRemove = list.get(i);
+                for (int i = 0; i < list.getList().size();i++){
+                    if (list.getList().get(i).getName().equals(name) & list.getList().get(i).getSurname().equals(surname)){
+                         employeeToRemove = list.getList().get(i);
                     }
                 }
                 if (employeeToRemove != null) {
-                    list.remove(employeeToRemove);
+                    list.getList().remove(employeeToRemove);
                     updateListFile();
                     break;
                 } else {
@@ -87,7 +88,7 @@ public final class EmployeeService {
     }
 
     public void editData ( ) {
-        list = getList();
+        list = getEmployees();
         Employee employeeToEdit = null;
 
         do {
@@ -95,9 +96,9 @@ public final class EmployeeService {
                 System.out.println("Please choose the employee to edit. Enter the surname :");
                 String surname = sc.next();
 
-                for (int i = 0; i < list.size(); i++) {
-                    if (list.get(i).getSurname().equals(surname)) {
-                        employeeToEdit = list.get(i);
+                for (int i = 0; i < list.getList().size(); i++) {
+                    if (list.getList().get(i).getSurname().equals(surname)) {
+                        employeeToEdit = list.getList().get(i);
                     }
                 }
 
@@ -117,10 +118,10 @@ public final class EmployeeService {
         }
 
     public int countNumberOfEmp(float givenSalary) {
-        list = getList();
+        list = getEmployees();
         int counter = 0;
-        for(int i = 0; i<list.size(); i++){
-            if (list.get(i).getSalary() > givenSalary){
+        for(int i = 0; i<list.getList().size(); i++){
+            if (list.getList().get(i).getSalary() > givenSalary){
                 counter++;
             }
         }
@@ -128,13 +129,13 @@ public final class EmployeeService {
     }
 
     public float countAverageSalary(int branch) {
-        list = getList();
+        list = getEmployees();
        int counter = 0;
        float allSalary = 0;
 
-       for(int i = 0; i<list.size(); i++){
-           if(list.get(i).getNrBranch() == branch){
-               float salary = list.get(i).getSalary();
+       for(int i = 0; i<list.getList().size(); i++){
+           if(list.getList().get(i).getNrBranch() == branch){
+               float salary = list.getList().get(i).getSalary();
                allSalary = allSalary + salary;
                counter++;
            }
@@ -145,12 +146,12 @@ public final class EmployeeService {
     }
 
     public float highestSalaryWomen() {
-        list = getList();
+        list = getEmployees();
        float highSalaryWomen = 0;
 
-       for(int i = 0; i<list.size(); i++){
-           float salary = list.get(i).getSalary();
-           if (list.get(i).getSex() == 'k'){
+       for(int i = 0; i<list.getList().size(); i++){
+           float salary = list.getList().get(i).getSalary();
+           if (list.getList().get(i).getSex() == 'k'){
                if(highSalaryWomen < salary) {
                    highSalaryWomen = salary;
                     }
@@ -160,12 +161,12 @@ public final class EmployeeService {
     }
 
     public float highestSalaryMen (){
-       list = getList();
+       list = getEmployees();
         float highSalaryMen = 0;
 
-        for(int i = 0; i<list.size(); i++) {
-            float salary = list.get(i).getSalary();
-            if (list.get(i).getSex() == 'm') {
+        for(int i = 0; i<list.getList().size(); i++) {
+            float salary = list.getList().get(i).getSalary();
+            if (list.getList().get(i).getSex() == 'm') {
                 if (highSalaryMen < salary) {
                     highSalaryMen = salary;
                 }
@@ -175,14 +176,14 @@ public final class EmployeeService {
     }
 
     public float averageOfWomenSalary() {
-       list = getList();
+       list = getEmployees();
        float allWomenSalary = 0;
        int counterWomen = 0;
         float salary = 0;
 
-       for (int i = 0; i < list.size(); i++){
-           salary = list.get(i).getSalary();
-           if (list.get(i).getSex() == 'k'){
+       for (int i = 0; i < list.getList().size(); i++){
+           salary = list.getList().get(i).getSalary();
+           if (list.getList().get(i).getSex() == 'k'){
                allWomenSalary = allWomenSalary + salary;
                counterWomen++;
            }
@@ -193,14 +194,14 @@ public final class EmployeeService {
     }
 
     public float averageOfMenSalary (){
-       list = getList();
+       list = getEmployees();
         float allMenSalary = 0;
         int counterMen = 0;
         float salary = 0;
 
-        for (int i = 0; i < list.size(); i++){
-            salary = list.get(i).getSalary();
-            if (list.get(i).getSex() == 'k'){
+        for (int i = 0; i < list.getList().size(); i++){
+            salary = list.getList().get(i).getSalary();
+            if (list.getList().get(i).getSex() == 'k'){
                 allMenSalary = allMenSalary + salary;
                 counterMen++;
             }
@@ -211,21 +212,21 @@ public final class EmployeeService {
     }
 
     public void increaseSalary10per() {
-       list = getList();
+       list = getEmployees();
 
-       for(Employee employee : list){
+       for(Employee employee : list.getList()){
            countRise(0.10f, employee);
        }
        updateListFile();
     }
 
     public String increaseSalaryByAmount(float amount) {
-       list = getList();
+       list = getEmployees();
 
        int counterWomen = 0;
        int counterMen = 0;
        float salaryAfterRise = 0;
-       for (Employee employee : list){
+       for (Employee employee : list.getList()){
            salaryAfterRise = employee.getSalary() + amount;
            employee.setSalary(salaryAfterRise);
            if(employee.getSex() == 'k') {
@@ -242,23 +243,23 @@ public final class EmployeeService {
     }
 
     public void sortForSurname(boolean howSort) {
-       list = getList();
+       list = getEmployees();
        if (howSort){
-           Collections.sort(list, new EmplyeeSurnameComparator());
+           Collections.sort(list.getList(), new EmplyeeSurnameComparator());
        } else {
-           Collections.sort(list, new EmplyeeSurnameComparator());
-           Collections.reverse(list);
+           Collections.sort(list.getList(), new EmplyeeSurnameComparator());
+           Collections.reverse(list.getList());
        }
        updateListFile();
     }
 
     public void sortForSalary(boolean howSort) {
-        list = getList();
+        list = getEmployees();
         if (howSort){
-            Collections.sort(list, new EmployeeSalaryComparator());
+            Collections.sort(list.getList(), new EmployeeSalaryComparator());
         } else {
-            Collections.sort(list, new EmployeeSalaryComparator());
-            Collections.reverse(list);
+            Collections.sort(list.getList(), new EmployeeSalaryComparator());
+            Collections.reverse(list.getList());
         }
         updateListFile();
     }
@@ -266,10 +267,10 @@ public final class EmployeeService {
 
 
     public String longestSurname() {
-       list = getList();
+       list = getEmployees();
        String theLongestSurname = "";
 
-       for (Employee employee : list){
+       for (Employee employee : list.getList()){
            if(theLongestSurname.length() < employee.getSurname().length()){
                theLongestSurname = employee.getSurname();
            }
@@ -278,10 +279,10 @@ public final class EmployeeService {
     }
 
     public int countAverageAge() {
-       list = getList();
+       list = getEmployees();
        int counter = 0;
        int sumAge = 0;
-       for(Employee employee : list){
+       for(Employee employee : list.getList()){
            if (employee.getNrChildren() > 0){
                sumAge = sumAge + employee.getAge();
                counter++;
@@ -292,7 +293,7 @@ public final class EmployeeService {
     }
 
     public void encodeData() {
-       list = getList();
+       list = getEmployees();
        float allSalary = 0;
        int counter = 0;
        String encodeSurname = "";
@@ -300,13 +301,13 @@ public final class EmployeeService {
        char tab [] = null;
        char sign = '*';
 
-       for(Employee employee : list){
+       for(Employee employee : list.getList()){
            allSalary = allSalary + employee.getSalary();
            counter++;
        }
        float averageSalary = allSalary / counter;
 
-       for (Employee employee : list){
+       for (Employee employee : list.getList()){
            if (employee.getSalary() < averageSalary){
 
                tab = new char[employee.getSurname().length()-1];

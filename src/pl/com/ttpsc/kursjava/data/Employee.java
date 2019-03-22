@@ -2,8 +2,13 @@ package pl.com.ttpsc.kursjava.data;
 
 import pl.com.ttpsc.kursjava.services.EmployeeService;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
+@XmlRootElement (name = "Employee")
+@XmlAccessorType (XmlAccessType.FIELD)
 public class Employee implements Serializable {
 
     private static final long serialVersionUID = 258369158;
@@ -16,6 +21,8 @@ public class Employee implements Serializable {
    private int age;
    private int nrChildren;
    private boolean maritalStatus;
+
+   public Employee () {}
 
     public Employee(String name, String surname, char sex, int nrBranch, float salary, int age, int nrChildren, boolean maritalStatus) {
         this.name = EmployeeService.enterDataCorrectly(name);

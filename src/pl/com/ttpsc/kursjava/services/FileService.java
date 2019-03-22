@@ -1,7 +1,11 @@
 package pl.com.ttpsc.kursjava.services;
 
 import pl.com.ttpsc.kursjava.data.Employee;
+import pl.com.ttpsc.kursjava.data.Employees;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import java.io.*;
 import java.util.List;
 
@@ -88,6 +92,24 @@ public final class FileService {
         f = new File("base.dat");
         if(f.exists()){
             f.renameTo(new File(nameFile));
+        }
+    }
+
+    public void writeToXMLfile () {
+
+        File file = new File("EmployeesList.xml");
+
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(Employees.class);
+            Marshaller marshaller = jaxbContext.createMarshaller();
+
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            Employees employees = new Employees();
+            marshaller.marshal(employees, file);
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
         }
     }
 
